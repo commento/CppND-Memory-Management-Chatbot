@@ -29,7 +29,7 @@ public:
 
     //// STUDENT CODE
     ////
-
+    //fulfill rule of 5
     ////
     //// EOF STUDENT CODE
 
