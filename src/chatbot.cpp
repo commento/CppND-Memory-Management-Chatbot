@@ -47,7 +47,11 @@ ChatBot::~ChatBot()
 ChatBot::ChatBot(const ChatBot& source)
 {
     std::cout << "COPYING content of instance " << &source << " to instance " << this << std::endl;
-    _image = source._image;
+
+    //deep copy
+    _image = new wxBitmap();
+    *_image = source._image->GetSubBitmap(
+                     wxRect(0, 0, source._image->GetWidth(), source._image->GetHeight()));
 
     // data handles (not owned)
     _currentNode = source._currentNode;
@@ -58,7 +62,9 @@ ChatBot::ChatBot(const ChatBot& source)
 ChatBot::ChatBot(ChatBot&& source)
 {
     std::cout << "MOVING content of instance " << &source << " to instance " << this << std::endl;
+
     _image = source._image;
+    source._image = NULL;
 
     // data handles (not owned)
     _currentNode = source._currentNode;
@@ -68,24 +74,36 @@ ChatBot::ChatBot(ChatBot&& source)
 
 ChatBot& ChatBot::operator=(const ChatBot& source)
 {
-    std::cout << "COPYING with assignment operator content of instance " << &source << " to instance " << this << std::endl;
-    _image = source._image;
+    ChatBot * dest = new ChatBot();
+    std::cout << "COPYING with assignment operator content of instance " << &source << " to instance " << dest << std::endl;
+ 
+    //deep copy
+    dest->_image = new wxBitmap();
+    *(dest->_image) = source._image->GetSubBitmap(
+                     wxRect(0, 0, source._image->GetWidth(), source._image->GetHeight()));
 
-    _currentNode = source._currentNode;
-    _rootNode = source._rootNode;
-    _chatLogic = source._chatLogic;
+    // data handles (not owned)
+    dest->_currentNode = source._currentNode;
+    dest->_rootNode = source._rootNode;
+    dest->_chatLogic = source._chatLogic;
+
+    return *dest;
 }
 
 ChatBot& ChatBot::operator=(ChatBot&& source)
 {
-    std::cout << "MOVING with assignment operator content of instance " << &source << " to instance " << this << std::endl;
-    _image = source._image;
+    ChatBot * dest = new ChatBot();
+
+    std::cout << "MOVING with assignment operator content of instance " << &source << " to instance " << dest << std::endl;
+    dest->_image = source._image;
     source._image = NULL;
 
     // data handles (not owned)
-    _currentNode = source._currentNode;
-    _rootNode = source._rootNode;
-    _chatLogic = source._chatLogic;
+    dest->_currentNode = source._currentNode;
+    dest->_rootNode = source._rootNode;
+    dest->_chatLogic = source._chatLogic;
+
+    return *dest;
 }
 ////
 //// EOF STUDENT CODE
