@@ -44,7 +44,49 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
-//fulfill rule of 5
+ChatBot::ChatBot(const ChatBot& source)
+{
+    std::cout << "COPYING content of instance " << &source << " to instance " << this << std::endl;
+    _image = source._image;
+
+    // data handles (not owned)
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+}
+
+ChatBot::ChatBot(ChatBot&& source)
+{
+    std::cout << "MOVING content of instance " << &source << " to instance " << this << std::endl;
+    _image = source._image;
+
+    // data handles (not owned)
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+}
+
+ChatBot& ChatBot::operator=(const ChatBot& source)
+{
+    std::cout << "COPYING with assignment operator content of instance " << &source << " to instance " << this << std::endl;
+    _image = source._image;
+
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+}
+
+ChatBot& ChatBot::operator=(ChatBot&& source)
+{
+    std::cout << "MOVING with assignment operator content of instance " << &source << " to instance " << this << std::endl;
+    _image = source._image;
+    source._image = NULL;
+
+    // data handles (not owned)
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+}
 ////
 //// EOF STUDENT CODE
 
