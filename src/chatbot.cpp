@@ -139,6 +139,11 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
     _currentNode->MoveChatbotToNewNode(newNode);
 }
 
+GraphNode * ChatBot::GetCurrentNode()
+{
+    return _currentNode;
+}
+
 void ChatBot::SetCurrentNode(GraphNode *node)
 {
     // update pointer to current node
